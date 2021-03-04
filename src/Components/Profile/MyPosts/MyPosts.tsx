@@ -9,10 +9,10 @@ function MyPosts() {
             <button>add post</button>
             <div className={s.item}>My posts</div>
             <div>New post</div>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
+            <Post message = "Hello world" like={"like = " + 5}/>
+            <Post message = "Hey, Arnold" like={"like = " + 10}/>
+            <Post message = "How are you" like={"like = " + 15}/>
+            <Post message = "what's up, men" like={"like = " + 20}/>
         </div>
     )
 }
