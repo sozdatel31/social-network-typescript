@@ -1,19 +1,18 @@
 import React from "react";
 import s from "./MyPosts.module.css"
+import Post from "./Post/Post";
 
 function MyPosts() {
     return (
         <div>
-            My posts
+            <textarea></textarea>
+            <button>add post</button>
+            <div className={s.item}>My posts</div>
             <div>New post</div>
-            <div className={s.posts}>
-                <div className={s.item}>
-                    post 1
-                </div>
-                <div className={s.item}>
-                    post 2
-                </div>
-            </div>
+            <Post/>
+            <Post/>
+            <Post/>
+            <Post/>
         </div>
     )
 }
