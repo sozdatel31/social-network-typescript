@@ -1,22 +1,49 @@
 import React from "react";
 import s from "./Dialogs.module.css"
+import {NavLink} from "react-router-dom";
+
+type DialogsItemPropsType = {
+    id: number
+    name: string
+}
+
+type MessagePropsType = {
+    message: string | number
+}
+function DialogsItem(props: DialogsItemPropsType) {
+    return (<div className={s.dialogsItems}>
+        <NavLink to={"/dialogs/" + props.id}>{props.name}</NavLink>
+    </div>)
+}
+
+function Messages(props: MessagePropsType) {
+ return (
+     <div className={s.message}>{props.message}</div>
+ )
+}
 
 function Dialogs() {
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-                <div>Nadya</div>
-                <div>Kolya</div>
-                <div>Antony</div>
-                <div>Ivan</div>
-                <div>Victor</div>
+                <DialogsItem id={1} name="Nadya"/>
+                <DialogsItem id={2} name="Kolya"/>
+                <DialogsItem id={3} name="Antony"/>
+                <DialogsItem id={4} name="Ivan"/>
+                <DialogsItem id={5} name="Victor"/>
             </div>
             <div className={s.message}>
-                <div>Yo</div>
-                <div>Hello, Kaban?</div>
-                <div>Sosi sosisky</div>
-                <div>Ssakroy ebalo</div>
-                <div>Meowwwwwwww</div>
+                <Messages message="I love you"/>
+                <Messages message="Hello, Kaban?"/>
+                <Messages message="Sosi sosisky"/>
+                <Messages message="Ssakroy ebalo"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
+                <Messages message="Meowwwwwwww"/>
             </div>
         </div>
     )
