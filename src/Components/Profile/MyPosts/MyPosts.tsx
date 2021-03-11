@@ -13,10 +13,12 @@ function MyPosts() {
             </div>
             <h3>My posts</h3>
             <div>New post</div>
+            <div className={s.item}>
             <Post message="Hello world" like={"like = " + 5}/>
             <Post message="Hey, Arnold" like={"like = " + 10}/>
             <Post message="How are you" like={"like = " + 15}/>
             <Post message="what's up, men" like={"like = " + 20}/>
+            </div>
         </div>
     )
 }
