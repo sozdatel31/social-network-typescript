@@ -1,8 +1,17 @@
 import React from "react";
 import s from "./MyPosts.module.css"
-import Post from "./Post/Post";
+import Post, {PostPropsType} from "./Post/Post";
 
 function MyPosts() {
+
+    const postData: Array<PostPropsType> = [
+        {id: 1, message: "Hello world", likesCount: 99},
+        {id: 1, message: "Hey, Arnold", likesCount: 27},
+        {id: 1, message: "How are you", likesCount: 77},
+        {id: 1, message: "what's up, men", likesCount: 27},
+        {id: 1, message: "Hello, Incubatornye", likesCount: 54}
+    ]
+    const postElement = postData.map((p)=> {return  <Post id={p.id} likesCount={p.likesCount} message={p.message}/>})
     return (
         <div>
             <div>
@@ -14,10 +23,7 @@ function MyPosts() {
             <h3>My posts</h3>
             <div>New post</div>
             <div className={s.item}>
-            <Post message="Hello world" like={"like = " + 5}/>
-            <Post message="Hey, Arnold" like={"like = " + 10}/>
-            <Post message="How are you" like={"like = " + 15}/>
-            <Post message="what's up, men" like={"like = " + 20}/>
+                {postElement}
             </div>
         </div>
     )
