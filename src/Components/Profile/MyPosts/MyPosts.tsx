@@ -1,17 +1,12 @@
 import React from "react";
 import s from "./MyPosts.module.css"
 import Post, {PostPropsType} from "./Post/Post";
+type myPostsPropsType = {
+    postData: Array<PostPropsType>
+}
 
-function MyPosts() {
-
-    const postData: Array<PostPropsType> = [
-        {id: 1, message: "Hello world", likesCount: 99},
-        {id: 1, message: "Hey, Arnold", likesCount: 27},
-        {id: 1, message: "How are you", likesCount: 77},
-        {id: 1, message: "what's up, men", likesCount: 27},
-        {id: 1, message: "Hello, Incubatornye", likesCount: 54}
-    ]
-    const postElement = postData.map((p)=> {return  <Post id={p.id} likesCount={p.likesCount} message={p.message}/>})
+function MyPosts(props: myPostsPropsType) {
+    const postElement = props.postData.map((p)=> {return  <Post id={p.id} likesCount={p.likesCount} message={p.message}/>})
     return (
         <div>
             <div>
