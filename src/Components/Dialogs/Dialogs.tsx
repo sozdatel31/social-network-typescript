@@ -2,12 +2,9 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import DialogsItem  from "./DialogsItem/DialogsItem";
 import Messages from "./Messages/Messages";
-import {DialogsType, MessageType} from "../../Redux/state";
-type dialogsPropsType = {
-    dialogsData: Array<DialogsType>
-    messageData: Array<MessageType>
-}
-function Dialogs(props: dialogsPropsType) {
+import {dialogsPageType} from "../../Redux/state"
+
+function Dialogs(props: dialogsPageType) {
     const dialogElement = props.dialogsData.map((d) => {
         return <DialogsItem id={d.id} name={d.name}/>
     })
@@ -15,7 +12,11 @@ function Dialogs(props: dialogsPropsType) {
     const messageElement = props.messageData.map((m) => {
         return <Messages id={m.id} message={m.message}/>
     })
-
+const newMessageElement = React.createRef<HTMLTextAreaElement>()
+    const addMessageElement = () => {
+        const textMessage = newMessageElement.current?.value
+        alert(textMessage)
+    }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -23,6 +24,8 @@ function Dialogs(props: dialogsPropsType) {
             </div>
             <div className={s.message}>
                 {messageElement}
+                <textarea ref={newMessageElement}></textarea>
+                <div><button onClick={addMessageElement}>add message</button></div>
             </div>
         </div>
     )
