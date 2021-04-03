@@ -9,6 +9,7 @@ type profilePropsPAgeType = {
     changePostText: string
     updateNewPostText: (newText: string) => void
 }
+
 function Profile(props: profilePropsPAgeType) {
     return (<div>
         <ProfileInfo/>
