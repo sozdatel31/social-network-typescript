@@ -19,5 +19,6 @@ export const rerenderEntireTree = () => {
 
 }
 rerenderEntireTree();
+
 subscriber(rerenderEntireTree)
 
