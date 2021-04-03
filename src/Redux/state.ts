@@ -1,4 +1,5 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {
+}
 
 export type MessageType = {
     id: number
@@ -35,11 +36,11 @@ export const addPost = (message: string) => {
     }
     state.profilePage.postData.push(newPost);
     state.profilePage.changePostText = "";
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 export const updateNewPostText = (newText: string) => {
- state.profilePage.changePostText = newText
-    rerenderEntireTree(state)
+    state.profilePage.changePostText = newText
+    rerenderEntireTree()
 }
 const state: RootStateType = {
     profilePage: {
@@ -73,5 +74,7 @@ const state: RootStateType = {
     },
     sidebar: {}
 }
-
+export const subscriber = (observer: () => void) => {
+    rerenderEntireTree = observer;
+}
 export default state;
