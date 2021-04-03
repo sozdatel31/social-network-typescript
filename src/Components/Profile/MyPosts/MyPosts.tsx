@@ -6,24 +6,25 @@ import {PostType} from "../../../Redux/state";
 type myPostsPropsType = {
     postData: Array<PostType>
     addPost: (message: string) => void
+    changePostText: string
+    updateNewPostText: (newText: string) => void
 }
 
 function MyPosts(props: myPostsPropsType) {
     const postElement = props.postData.map((p) => {
         return <Post id={p.id} likesCount={p.likesCount} message={p.message}/>
     })
-    const newPostElement = React.createRef<HTMLTextAreaElement>();
+
     const onAddPost = () => {
-        if (newPostElement.current) {
-        props.addPost(newPostElement.current.value)
-        newPostElement.current.value = ""}
+            props.addPost(props.changePostText)
 
-
-    }
+        }
     return (
         <div>
             <div>
-                <textarea ref={newPostElement}></textarea>
+                <textarea
+                    onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}}
+                    value={props.changePostText}/>
             </div>
             <div>
                 <button onClick={onAddPost}>add post</button>
