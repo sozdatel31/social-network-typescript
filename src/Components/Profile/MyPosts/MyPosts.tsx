@@ -1,13 +1,14 @@
 import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
-import {PostType} from "../../../Redux/state";
+import {ActionType, PostType} from "../../../Redux/state";
 
 type myPostsPropsType = {
     postData: Array<PostType>
-    addPost: (message: string) => void
+   // addPost: (message: string) => void
     changePostText: string
-    updateNewPostText: (newText: string) => void
+    //updateNewPostText: (newText: string) => void
+    dispatch: (action: ActionType) => void
 }
 
 function MyPosts(props: myPostsPropsType) {
@@ -16,14 +17,15 @@ function MyPosts(props: myPostsPropsType) {
     })
 
     const onAddPost = () => {
-            props.addPost(props.changePostText)
+        props.dispatch({type: "ADD-POST", postText: props.changePostText})
 
         }
     return (
         <div>
             <div>
                 <textarea
-                    onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}}
+                    onChange={(e)=>{props.dispatch({type:"UPDATE-NEW-POST-TEXT", newText: (e.currentTarget.value)})}}
+                    //onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}}
                     value={props.changePostText}/>
             </div>
             <div>
