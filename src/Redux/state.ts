@@ -1,5 +1,68 @@
-let rerenderEntireTree = () => {
+export type StoreType = {
+    _state: RootStateType
+    updateNewPostText: (newText: string) => void;
+    addPost: (message: string) => void;
+    _subscriber: (observer: () => void) => void;
+    rerenderEntireTree: () => void
+    getState: () => RootStateType
 }
+const store: StoreType = {
+    _state: {
+        profilePage: {
+            changePostText: "",
+            postData: [
+                {id: 1, message: "Hello world", likesCount: 99},
+                {id: 2, message: "Hey, Arnold", likesCount: 27},
+                {id: 3, message: "How are you", likesCount: 77},
+                {id: 4, message: "what's up, men", likesCount: 27},
+                {id: 5, message: "Hello, Incubatornye", likesCount: 54}
+            ]
+        },
+        dialogsPage: {
+            dialogsData: [
+                {id: 1, name: "Nadya"},
+                {id: 2, name: "Kolya"},
+                {id: 3, name: "Antony"},
+                {id: 4, name: "Ivan"},
+                {id: 5, name: "Victor"},
+                {id: 6, name: "Pavel"}],
+            messageData: [
+                {id: 1, message: "yo"},
+                {id: 2, message: "MEOWWW"},
+                {id: 3, message: "MM?"},
+                {id: 4, message: "hey yo"},
+                {id: 5, message: "MEOWWW"},
+                {id: 6, message: "MEOWWW"},
+                {id: 7, message: "MEOWWW"},
+                {id: 8, message: "MEOWWW"}
+            ]
+        },
+        sidebar: {}
+    },
+    updateNewPostText(newText: string) {
+        this._state.profilePage.changePostText = newText
+        this.rerenderEntireTree()
+    },
+    addPost(message: string) {
+        let newPost: PostType = {
+            id: new Date().getTime(),
+            message: message,
+            likesCount: 0
+        }
+        this._state.profilePage.postData.push(newPost);
+        this._state.profilePage.changePostText = "";
+        this.rerenderEntireTree()
+    },
+    rerenderEntireTree() {
+    },
+    _subscriber(observer) {
+        this.rerenderEntireTree = observer;
+    },
+    getState() {
+        return this._state
+    }
+}
+
 
 export type MessageType = {
     id: number
@@ -28,53 +91,5 @@ export type RootStateType = {
     dialogsPage: dialogsPageType
     sidebar: sidebarType
 }
-export const addPost = (message: string) => {
-    let newPost: PostType = {
-        id: new Date().getTime(),
-        message: message,
-        likesCount: 0
-    }
-    state.profilePage.postData.push(newPost);
-    state.profilePage.changePostText = "";
-    rerenderEntireTree()
-}
-export const updateNewPostText = (newText: string) => {
-    state.profilePage.changePostText = newText
-    rerenderEntireTree()
-}
-const state: RootStateType = {
-    profilePage: {
-        changePostText: "",
-        postData: [
-            {id: 1, message: "Hello world", likesCount: 99},
-            {id: 2, message: "Hey, Arnold", likesCount: 27},
-            {id: 3, message: "How are you", likesCount: 77},
-            {id: 4, message: "what's up, men", likesCount: 27},
-            {id: 5, message: "Hello, Incubatornye", likesCount: 54}
-        ]
-    },
-    dialogsPage: {
-        dialogsData: [
-            {id: 1, name: "Nadya"},
-            {id: 2, name: "Kolya"},
-            {id: 3, name: "Antony"},
-            {id: 4, name: "Ivan"},
-            {id: 5, name: "Victor"},
-            {id: 6, name: "Pavel"}],
-        messageData: [
-            {id: 1, message: "yo"},
-            {id: 2, message: "MEOWWW"},
-            {id: 3, message: "MM?"},
-            {id: 4, message: "hey yo"},
-            {id: 5, message: "MEOWWW"},
-            {id: 6, message: "MEOWWW"},
-            {id: 7, message: "MEOWWW"},
-            {id: 8, message: "MEOWWW"}
-        ]
-    },
-    sidebar: {}
-}
-export const subscriber = (observer: () => void) => {
-    rerenderEntireTree = observer;
-}
-export default state;
+
+export default store;
