@@ -7,7 +7,15 @@ export type StoreType = {
     getState: () => RootStateType;
     dispatch: (action: ActionType) => void;
 }
-export type ActionType = AddPostActionType | UpdateNewTextActionType
+export type ActionType = AddPostActionType | UpdateNewTextActionType | AddMessageActionType | UpdateNewMessageActionType
+type AddMessageActionType = {
+    type: "ADD-MESSAGE"
+    messageText: string
+}
+type UpdateNewMessageActionType = {
+    type: "UPDATE-NEW-MESSAGE-TEXT",
+    newMessageText: string
+}
 type AddPostActionType = {
     type: "ADD-POST",
     postText: string
@@ -15,6 +23,30 @@ type AddPostActionType = {
 type UpdateNewTextActionType = {
     type: "UPDATE-NEW-POST-TEXT",
     newText: string
+}
+export const addPostAC = (postText: string): AddPostActionType => {
+    return {
+        type: "ADD-POST",
+        postText: postText
+    }
+}
+export const UpdateTextPostAC = (newText: string): UpdateNewTextActionType => {
+    return {
+        type: "UPDATE-NEW-POST-TEXT",
+        newText: newText
+    }
+}
+export const addMessageAC = (messageText: string): AddMessageActionType => {
+    return {
+        type:"ADD-MESSAGE",
+        messageText: messageText
+    }
+}
+export const UpdateMessagePostAC = (newMessage: string): UpdateNewMessageActionType => {
+    return {
+        type: "UPDATE-NEW-MESSAGE-TEXT",
+        newMessageText: newMessage
+    }
 }
 const store: StoreType = {
     _state: {
@@ -29,6 +61,7 @@ const store: StoreType = {
             ]
         },
         dialogsPage: {
+            changeMessageText: "",
             dialogsData: [
                 {id: 1, name: "Nadya"},
                 {id: 2, name: "Kolya"},
@@ -85,6 +118,17 @@ const store: StoreType = {
         } else if (action.type === "UPDATE-NEW-POST-TEXT") {
             this._state.profilePage.changePostText = action.newText
             this.rerenderEntireTree()
+        } else if (action.type === "ADD-MESSAGE") {
+            let newMessage: MessageType = {
+                id: new Date().getTime(),
+                message: action.messageText
+            }
+            this._state.dialogsPage.messageData.push(newMessage);
+            this._state.dialogsPage.changeMessageText = "";
+            this.rerenderEntireTree();
+        } else if (action.type === "UPDATE-NEW-MESSAGE-TEXT") {
+            this._state.dialogsPage.changeMessageText = action.newMessageText
+            this.rerenderEntireTree()
         }
     }
 }
@@ -110,6 +154,7 @@ export type profilePageType = {
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
     messageData: Array<MessageType>
+    changeMessageText: string
 }
 type sidebarType = {}
 export type RootStateType = {

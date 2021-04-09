@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
-import {ActionType, PostType} from "../../../Redux/state";
+import {ActionType, addPostAC, PostType, UpdateTextPostAC} from "../../../Redux/state";
 
 type myPostsPropsType = {
     postData: Array<PostType>
@@ -17,15 +17,15 @@ function MyPosts(props: myPostsPropsType) {
     })
 
     const onAddPost = () => {
-        props.dispatch({type: "ADD-POST", postText: props.changePostText})
+        props.dispatch(addPostAC(props.changePostText))
 
         }
     return (
         <div>
             <div>
                 <textarea
-                    onChange={(e)=>{props.dispatch({type:"UPDATE-NEW-POST-TEXT", newText: (e.currentTarget.value)})}}
-                    //onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}}
+                    onChange={(e)=>{props.dispatch(UpdateTextPostAC((e.currentTarget.value)))}}
+                    //onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}
                     value={props.changePostText}/>
             </div>
             <div>
