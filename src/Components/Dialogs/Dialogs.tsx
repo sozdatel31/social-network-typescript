@@ -2,7 +2,8 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import DialogsItem  from "./DialogsItem/DialogsItem";
 import Messages from "./Messages/Messages";
-import {ActionType, addMessageAC, DialogsType, MessageType, UpdateMessagePostAC} from "../../Redux/state";
+import {ActionType,  DialogsType, MessageType} from "../../Redux/state";
+import { addMessageAC, UpdateMessagePostAC} from "../../Redux/dialogs-reducer";
 import {type} from "os";
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
