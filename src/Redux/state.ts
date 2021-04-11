@@ -112,7 +112,7 @@ const store: StoreType = {
                 message: action.postText,
                 likesCount: 0
             }
-            this._state.profilePage.postData.push(newPost);
+            this._state.profilePage.postData.unshift(newPost);
             this._state.profilePage.changePostText = "";
             this.rerenderEntireTree()
         } else if (action.type === "UPDATE-NEW-POST-TEXT") {
