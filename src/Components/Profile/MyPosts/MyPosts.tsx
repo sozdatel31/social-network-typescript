@@ -6,10 +6,10 @@ import {addPostAC, UpdateTextPostAC} from "../../../Redux/profile-reducer";
 
 type myPostsPropsType = {
     postData: Array<PostType>
-    // addPost: (message: string) => void
+    addPost: (message: string) => void
     changePostText: string
-    //updateNewPostText: (newText: string) => void
-    dispatch: (action: ActionType) => void
+    updateNewPostText: (newText: string) => void
+    // dispatch: (action: ActionType) => void
 }
 
 function MyPosts(props: myPostsPropsType) {
@@ -17,16 +17,15 @@ function MyPosts(props: myPostsPropsType) {
         return <Post id={p.id} likesCount={p.likesCount} message={p.message}/>
     })
 
-    const onAddPost = () => {
-        props.dispatch(addPostAC(props.changePostText))
+    const onAddPost = () => {props.addPost(props.changePostText) }
+        //props.dispatch(addPostAC(props.changePostText))
 
-    }
     return (
         <div>
             <div>
                 <textarea
                     onChange={(e) => {
-                        props.dispatch(UpdateTextPostAC((e.currentTarget.value)))
+                        props.updateNewPostText((e.currentTarget.value))
                     }}
                     //onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}
                     value={props.changePostText}/>

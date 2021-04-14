@@ -10,6 +10,7 @@ import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import {StoreType} from "./Redux/store";
 import store from "./Redux/redux-store";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 type PropsType = {
     store: typeof store
@@ -25,16 +26,20 @@ function App(props: PropsType) {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Route path="/dialogs"
-                           render={() => <Dialogs dialogsData={state.dialogsPage.dialogsData}
-                                                  changeMessageText={state.dialogsPage.changeMessageText}
-                                                  dispatch={props.store.dispatch.bind(props.store)}
-                                                  messageData={state.dialogsPage.messageData}/>}/>
+                           render={() => <DialogsContainer store={store}/>}/>
+
+                               {/*dialogsData={state.dialogsPage.dialogsData}*/}
+                               {/*changeMessageText={state.dialogsPage.changeMessageText}*/}
+                               {/*dispatch={props.store.dispatch.bind(props.store)}*/}
+                               {/*messageData={state.dialogsPage.messageData}*/}
                     <Route path="/profile"
-                           render={() => <Profile postData={state.profilePage.postData}
-                                                  dispatch={props.store.dispatch.bind(props.store)}
-                                                 // addPost={props.store.addPost.bind(props.store)}
-                                                  changePostText={state.profilePage.changePostText}
-                                                  //updateNewPostText={props.store.updateNewPostText.bind(props.store)}
+                           render={() => <Profile store={store}
+
+                               // postData={state.profilePage.postData}
+                               //                    dispatch={props.store.dispatch.bind(props.store)}
+                               //                   // addPost={props.store.addPost.bind(props.store)}
+                               //                    changePostText={state.profilePage.changePostText}
+                               //                    //updateNewPostText={props.store.updateNewPostText.bind(props.store)}
                            />}/>
                     <Route path="/news" render={() => <News/>}/>
                     <Route path="/music" render={Music}/>
