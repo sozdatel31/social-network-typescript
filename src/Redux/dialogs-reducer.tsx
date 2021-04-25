@@ -1,6 +1,8 @@
 import React from 'react'
-import {ActionType, dialogsPageType, MessageType} from "./store";
-
+export type MessageType = {
+    id: number
+    message: string
+}
 type AddMessageActionType = {
     type: "ADD-MESSAGE"
     messageText: string
@@ -10,7 +12,18 @@ type UpdateNewMessageActionType = {
     newMessageText: string
 }
 
-let initialDialogsState = {
+type ActionsType =  AddMessageActionType | UpdateNewMessageActionType
+export type dialogsPageTypes = {
+    dialogsData: Array<DialogsType>
+    messageData: Array<MessageType>
+    changeMessageText: string
+}
+type DialogsType = {
+    id: number
+    name: string
+}
+
+let initialDialogsState: dialogsPageTypes = {
     changeMessageText: "",
     dialogsData: [
         {id: 1, name: "Nadya"},
@@ -31,19 +44,27 @@ let initialDialogsState = {
     ]
 }
 
-const dialogsReducer = (state: dialogsPageType = initialDialogsState, action: ActionType) => {
+const dialogsReducer = (state: dialogsPageTypes = initialDialogsState, action: ActionsType):dialogsPageTypes => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            let newMessage: MessageType = {
-                id: new Date().getTime(),
-                message: action.messageText
-            }
-            state.messageData.push(newMessage);
-            state.changeMessageText = "";
-            return state;
+            // let newMessage: MessageType = {
+            //     id: new Date().getTime(),
+            //     message: action.messageText
+            // }
+            // state.messageData.push(newMessage);
+            // state.changeMessageText = "";
+            return {...state,
+                changeMessageText: "",
+                messageData: [...state.messageData, {
+                    id: new Date().getTime(),
+                    message: action.messageText
+                }]
+            };
         case "UPDATE-NEW-MESSAGE-TEXT":
-            state.changeMessageText = action.newMessageText
-            return state;
+           // state.changeMessageText = action.newMessageText
+            return {...state,
+                changeMessageText: action.newMessageText
+            };
         default:
             return state;
     }

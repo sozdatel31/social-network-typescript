@@ -9,7 +9,7 @@ export type StoreType = {
     getState: () => RootStateType;
     dispatch: (action: ActionType) => void;
 }
-export type ActionType = AddPostActionType | UpdateNewTextActionType | AddMessageActionType | UpdateNewMessageActionType
+type ActionType = AddPostActionType | UpdateNewTextActionType | AddMessageActionType | UpdateNewMessageActionType
 type AddMessageActionType = {
     type: "ADD-MESSAGE"
     messageText: string
@@ -70,7 +70,7 @@ const store: StoreType = {
         return this._state
     },
 
-    dispatch(action) {
+    dispatch(action:any) {
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.sidebar = sitebarReducer(this._state.dialogsPage, action)
@@ -92,7 +92,7 @@ export type PostType = {
     message: string
     likesCount: number
 }
-export type profilePageType = {
+type profilePageType = {
     postData: Array<PostType>
     changePostText: string
 }

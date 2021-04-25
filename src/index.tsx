@@ -2,19 +2,26 @@ import React from 'react';
 import './index.css';
 import ReactDOM from 'react-dom';
 import App from './App';
-import store from "./Redux/redux-store";
+import {store} from "./Redux/redux-store";
+import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
 
 
-export const rerenderEntireTree = () => {
+// export const rerenderEntireTree = () => {
     ReactDOM.render(
-        <React.StrictMode>
-            <App store={store}/>
-        </React.StrictMode>,
+        <BrowserRouter>
+            <React.StrictMode>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
+            </React.StrictMode>
+        </BrowserRouter>
+        ,
         document.getElementById('root')
     );
 
-}
-rerenderEntireTree();
-
-store.subscribe(rerenderEntireTree)
-
+// }
+//  rerenderEntireTree();
+//
+// store.subscribe(rerenderEntireTree)
+//

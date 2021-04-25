@@ -1,5 +1,5 @@
 import React from 'react'
-import {ActionType} from "./store";
+import {ActionType} from "./profile-reducer";
 
 let initialSidebarState = {
 

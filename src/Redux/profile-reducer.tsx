@@ -1,5 +1,6 @@
 import React from 'react'
-import {ActionType, PostType, profilePageType} from "./store";
+
+export type ActionType = AddPostActionType | UpdateNewTextActionType
 
 type AddPostActionType = {
     type: "ADD-POST",
@@ -15,6 +16,15 @@ export const addPostAC = (postText: string): AddPostActionType => {
         postText: postText
     }
 }
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type profilePageType = {
+    postData: Array<PostType>
+    changePostText: string
+}
 export const UpdateTextPostAC = (newText: string): UpdateNewTextActionType => {
     return {
         type: "UPDATE-NEW-POST-TEXT",
@@ -22,7 +32,7 @@ export const UpdateTextPostAC = (newText: string): UpdateNewTextActionType => {
     }
 }
 
-let initialProfileState = {
+let initialProfileState: profilePageType = {
     changePostText: "",
     postData: [
         {id: 1, message: "Hello world", likesCount: 99},
@@ -36,19 +46,28 @@ let initialProfileState = {
 const profileReducer = (state: profilePageType = initialProfileState, action: ActionType) => {
     switch (action.type) {
         case "ADD-POST":
-            let newPost: PostType = {
-                id: new Date().getTime(),
-                message: action.postText,
-                likesCount: 0
-            }
-            state.postData.unshift(newPost);
-            state.changePostText = "";
-            return state;
+            // let newPost: PostType = {
+            //     id: new Date().getTime(),
+            //     message: action.postText,
+            //     likesCount: 0
+            // }
+            // state.postData.unshift(newPost);
+            // state.changePostText = "";
+            return {...state,
+                changePostText: "",
+                postData: [ {
+                    id: new Date().getTime(),
+                    message: action.postText,
+                    likesCount: 0
+                }  ,...state.postData]
+            };
         case "UPDATE-NEW-POST-TEXT":
-            state.changePostText = action.newText
-            return state;
+            // state.changePostText = action.newText
+            return {...state,
+                changePostText: action.newText
+            };
         default:
-            return state;
+            return {...state};
     }
 }
 

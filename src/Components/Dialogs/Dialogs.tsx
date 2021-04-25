@@ -2,25 +2,19 @@ import React from "react";
 import s from "./Dialogs.module.css"
 import DialogsItem  from "./DialogsItem/DialogsItem";
 import Messages from "./Messages/Messages";
-import {DialogsType, MessageType} from "../../Redux/store";
-export type dialogsPageType = {
-    dialogsData: Array<DialogsType>
-    messageData: Array<MessageType>
-    updateMessageText: (text: string)=>void
-    addMessage: (currentText: string) => void
-    changeMessageText: string
-}
+import {DialogsContainerType} from "./DialogsContainer";
 
-function Dialogs(props: dialogsPageType) {
-    const dialogElement = props.dialogsData.map((d) => {
+
+function Dialogs(props: DialogsContainerType) {
+    const dialogElement = props.dialogsPage.dialogsData.map((d) => {
         return <DialogsItem id={d.id} name={d.name}/>
     })
 
-    const messageElement = props.messageData.map((m) => {
+    const messageElement = props.dialogsPage.messageData.map((m) => {
         return <Messages id={m.id} message={m.message}/>
     })
 const newMessageElement = () => {
-        props.addMessage(props.changeMessageText)
+        props.addMessage(props.dialogsPage.changeMessageText)
     }
     return (
         <div className={s.dialogs}>
@@ -32,7 +26,7 @@ const newMessageElement = () => {
                 <textarea
                     placeholder={"Go writing message!!!"}
                     onChange={(e)=>{props.updateMessageText((e.currentTarget.value))}}
-                value={props.changeMessageText}></textarea>
+                value={props.dialogsPage.changeMessageText}></textarea>
                 <div><button onClick={newMessageElement}>add message</button></div>
             </div>
         </div>
