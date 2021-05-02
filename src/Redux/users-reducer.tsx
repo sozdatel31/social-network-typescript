@@ -4,11 +4,15 @@ type UsersLocation = {
     city: string,
     country: string
 }
+type PhotosType = {
+    "small": string | null
+    "large": string | null
+}
 export type UserType = {
     id: number,
-    photoUrl: string,
+    photos: PhotosType,
     followed: boolean,
-    fullName: string,
+    name: string,
     status: string,
     location: UsersLocation
 }
@@ -17,40 +21,7 @@ export type InitialStateType = {
 }
 
 let initialUsersState: InitialStateType = {
-    users: [
-        {
-            id: 1,
-            photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Pavel_Derevyanko_%282017-10-03%29_2_%28cropped%29.jpg',
-            followed: true,
-            fullName: "Pavel",
-            status: "I am a boss",
-            location: {city: "Minsk", country: "Belarus"}
-        },
-        {
-            id: 2,
-            photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Pavel_Derevyanko_%282017-10-03%29_2_%28cropped%29.jpg',
-            followed: true,
-            fullName: "Nadya",
-            status: "Hey Ho",
-            location: {city: "Minsk", country: "Belarus"}
-        },
-        {
-            id: 3,
-            photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Pavel_Derevyanko_%282017-10-03%29_2_%28cropped%29.jpg',
-            followed: true,
-            fullName: "Kolya",
-            status: "Trener",
-            location: {city: "Moskow", country: "Russia"}
-        },
-        {
-            id: 4,
-            photoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Pavel_Derevyanko_%282017-10-03%29_2_%28cropped%29.jpg',
-            followed: false,
-            fullName: "Anton",
-            status: "You you",
-            location: {city: "Kiev", country: "Ukraine"}
-        },
-    ]
+    users: []
 }
 
 const usersReducer = (state: InitialStateType = initialUsersState, action: UsersActionType): InitialStateType => {

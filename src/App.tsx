@@ -9,7 +9,6 @@ import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import {store} from "./Redux/redux-store";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-import {Users} from "./Components/Users/Users";
 import UsersContainer from "./Components/Users/UsersContainer";
 
 // type PropsType = {
