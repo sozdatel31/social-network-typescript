@@ -18,10 +18,16 @@ export type UserType = {
 }
 export type InitialStateType = {
     users: Array<UserType>
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number
 }
 
 let initialUsersState: InitialStateType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
 const usersReducer = (state: InitialStateType = initialUsersState, action: UsersActionType): InitialStateType => {
@@ -47,7 +53,13 @@ const usersReducer = (state: InitialStateType = initialUsersState, action: Users
                 })
             };
         case "SET-USERS": {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users:  action.users}
+        }
+        case "SET-CURRENT-PAGE": {
+            return {...state, currentPage: action.currentPage}
+        }
+        case "SET-TOTAL-USERS-COUNT": {
+            return {...state, totalUsersCount: action.count}
         }
         default:
             return state
@@ -57,6 +69,8 @@ const usersReducer = (state: InitialStateType = initialUsersState, action: Users
 export const followAC = (userID: number) => ({type: "FOLLOW", userID} as const)
 export const unfollowAC = (userID: number) => ({type: "UNFOLLOW", userID} as const)
 export const setUsersAC = (users: Array<UserType>) => ({type: "SET-USERS", users} as const)
+export const setCurrentPageAC = (currentPage: number) => ({type: "SET-CURRENT-PAGE", currentPage} as const)
+export const setUsersTotalCountAC = (totalUsersCount: number) => ({type: "SET-TOTAL-USERS-COUNT", count: totalUsersCount} as const)
 
 
 type FollowActionType = {
@@ -71,6 +85,14 @@ type SetUsersActionType = {
     type: "SET-USERS",
     users: Array<UserType>
 }
-export type UsersActionType = FollowActionType | UnfollowActionType | SetUsersActionType
+type SetCurrentPageType = {
+    type: "SET-CURRENT-PAGE",
+   currentPage: number,
+}
+type SetTotalUsersCountType = {
+    type: "SET-TOTAL-USERS-COUNT",
+   count: number,
+}
+export type UsersActionType = FollowActionType | UnfollowActionType | SetUsersActionType | SetCurrentPageType | SetTotalUsersCountType
 
 export default usersReducer;
