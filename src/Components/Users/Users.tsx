@@ -22,11 +22,12 @@ let Users = (props:UsersComponentPropsType) => {
     }
 
         return <div>
-            <div>
+
+
             {pages.map(m => {
                return <span className={props.currentPage === m? s.selectedPage : ""} onClick={()=> {props.onPageChanged(m)}}>{m + " "}</span>
             })}
-            </div>
+
             {
                 props.users.map(u => <div key={u.id}>
             <span>
