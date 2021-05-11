@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 
 import {
     followAC,
-    InitialStateType,
+    InitialStateUsersType,
     setCurrentPageAC, setToggleIsFetchingAC,
     setUsersAC, setUsersTotalCountAC,
     unfollowAC,
@@ -73,7 +73,7 @@ class UsersContainer extends React.Component<UsersPropsType, UserType> {
 
 
 export type UsersPropsType = MapDispatchPropsType & MapStatePropsType
-const mapStateToProps = (state: AppStateType): InitialStateType => {
+const mapStateToProps = (state: AppStateType): InitialStateUsersType => {
     return {
         users: state.usersPage.users,
         currentPage: state.usersPage.currentPage,

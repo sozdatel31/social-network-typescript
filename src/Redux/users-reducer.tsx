@@ -16,7 +16,7 @@ export type UserType = {
     status: string,
     location: UsersLocation
 }
-export type InitialStateType = {
+export type InitialStateUsersType = {
     users: Array<UserType>
     pageSize: number,
     totalUsersCount: number,
@@ -24,7 +24,7 @@ export type InitialStateType = {
     isFetching: boolean
 }
 
-let initialUsersState: InitialStateType = {
+let initialUsersState: InitialStateUsersType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
@@ -32,7 +32,7 @@ let initialUsersState: InitialStateType = {
     isFetching: false
 }
 
-const usersReducer = (state: InitialStateType = initialUsersState, action: UsersActionType): InitialStateType => {
+const usersReducer = (state: InitialStateUsersType = initialUsersState, action: UsersActionType): InitialStateUsersType => {
     switch (action.type) {
         case "FOLLOW":
             return {

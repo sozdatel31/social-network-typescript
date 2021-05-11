@@ -1,26 +1,13 @@
 import React from "react";
-import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import MyPostsСontainer from "./MyPosts/MyPostsContainer";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {profilePageType} from "../../Redux/profile-reducer";
 
-// type profilePropsPAgeType = {
-//     store: typeof store
-   //  postData: Array<PostType>
-   // // addPost: (message: string) => void
-   //  changePostText: string
-   // // updateNewPostText: (newText: string) => void
-   //  dispatch: (action: ActionType) => void
-// }
 
-function Profile() {
+function Profile(props: profilePageType) {
     return (<div>
-        <ProfileInfo/>
-        <MyPostsСontainer //store={props.store}
-            // postData={props.postData}
-            // //addPost={props.addPost}
-            //      dispatch={props.dispatch}
-            //      changePostText={props.changePostText}
-            //     // updateNewPostText={props.updateNewPostText}
+        <ProfileInfo profile={props.profile} />
+        <MyPostsContainer
         />
     </div>)
 }

@@ -2,13 +2,13 @@ import React from 'react';
 import './App.css';
 import Header from "./Components/Header/Header";
 import Navbar from "./Components/Nav/Nav";
-import Profile from "./Components/Profile/Profile";
 import {BrowserRouter, Route} from 'react-router-dom';
 import News from "./Components/News/News";
 import Music from "./Components/Music/Music";
 import Settings from "./Components/Settings/Settings";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 import UsersContainer from "./Components/Users/UsersContainer";
+import ProfileContainer from "./Components/Profile/ProfileContainer";
 
 // type PropsType = {
 //     store: typeof store
@@ -26,7 +26,7 @@ function App() {
                     <Route path="/dialogs"
                            render={() => <DialogsContainer/>}/>
                     <Route path="/profile"
-                           render={() => <Profile/>}/>
+                           render={() => <ProfileContainer/>}/>
                            <Route path="/users"
                                   render={() => <UsersContainer/>}/>
 
