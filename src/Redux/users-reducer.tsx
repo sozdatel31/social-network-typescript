@@ -22,6 +22,7 @@ export type InitialStateUsersType = {
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean
+    followingIsProgress: Array<number>
 }
 
 let initialUsersState: InitialStateUsersType = {
@@ -29,7 +30,8 @@ let initialUsersState: InitialStateUsersType = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingIsProgress: []
 }
 
 const usersReducer = (state: InitialStateUsersType = initialUsersState, action: UsersActionType): InitialStateUsersType => {
@@ -66,6 +68,13 @@ const usersReducer = (state: InitialStateUsersType = initialUsersState, action: 
         case "TOGGLE-IS-FETCHING": {
             return {...state, isFetching: action.isFetching}
         }
+        case "TOGGLE-IS-FOLLOWING-PROGRESS": {
+            return {...state,
+                followingIsProgress: action.isFetching
+                    ? [...state.followingIsProgress, action.userId]:
+                    state.followingIsProgress.filter(id=> id != action.userId)
+            }
+        }
         default:
             return state
     }
@@ -77,6 +86,7 @@ export const setUsersAC = (users: Array<UserType>) => ({type: "SET-USERS", users
 export const setCurrentPageAC = (currentPage: number) => ({type: "SET-CURRENT-PAGE", currentPage} as const)
 export const setUsersTotalCountAC = (totalUsersCount: number) => ({type: "SET-TOTAL-USERS-COUNT", count: totalUsersCount} as const)
 export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: "TOGGLE-IS-FETCHING", isFetching} as const)
+export const setToggleIsFollowingProgressAC = (isFetching: boolean, userId: number) => ({type: "TOGGLE-IS-FOLLOWING-PROGRESS", isFetching, userId} as const)
 
 
 type FollowActionType = {
@@ -103,7 +113,12 @@ type ToggleIsFetchingType = {
     type: "TOGGLE-IS-FETCHING",
    isFetching: boolean,
 }
+type FollowingProgressType = {
+    type: "TOGGLE-IS-FOLLOWING-PROGRESS",
+    isFetching: boolean,
+    userId: number
+}
 export type UsersActionType = FollowActionType | UnfollowActionType
-    | SetUsersActionType | SetCurrentPageType | SetTotalUsersCountType | ToggleIsFetchingType
+    | SetUsersActionType | SetCurrentPageType | SetTotalUsersCountType | ToggleIsFetchingType | FollowingProgressType
 
 export default usersReducer;
