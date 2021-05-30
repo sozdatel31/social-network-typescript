@@ -5,30 +5,10 @@ import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import { Dispatch } from "redux";
 
-// export type dialogsPageType = {
-//     store: typeof store;
-// }
 
-// function DialogsContainer(props: dialogsPageType) {
-//
-//     const state = props.store.getState();
-//     const AddMessage = (currentMessageText: string) => {
-//         props.store.dispatch(addMessageAC(currentMessageText));
-//     }
-//     const updateNewMessageText = (text: string) => {
-//         const action = UpdateMessagePostAC(text);
-//         props.store.dispatch(action)
-//     }
-//     return (
-//         <Dialogs dialogsData={state.dialogsPage.dialogsData}
-//                  messageData={state.dialogsPage.messageData}
-//                  changeMessageText={state.dialogsPage.changeMessageText}
-//                  updateMessageText={updateNewMessageText}
-//                  addMessage={AddMessage}/>
-//     )
-// }
 type MapStateToPropsType = {
     dialogsPage: dialogsPageTypes
+    isAuth: boolean
 }
 type MapDispatchPropsType = {
     updateMessageText: (text: string) => void
@@ -37,7 +17,8 @@ type MapDispatchPropsType = {
 export type DialogsContainerType = MapStateToPropsType & MapDispatchPropsType
 const mapStateToProps = (state: AppStateType):MapStateToPropsType => {
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: state.dialogsPage,
+        isAuth: state.auth.isAuth
     }
 }
 const mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {

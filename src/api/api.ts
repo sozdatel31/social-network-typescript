@@ -24,3 +24,15 @@ export const followUsers = (userId: number) => {
         }).then(response => response.data)
 
 }
+
+export const getProfile = (userId: string) => {
+    return axios.get(`https://social-network.samuraijs.com/api/1.0/Profile/` + userId)
+}
+
+export const authAPI = {
+    me() {
+       return  axios.get('https://social-network.samuraijs.com/api/1.0/auth/me',
+            {withCredentials: true}
+        )
+    }
+}

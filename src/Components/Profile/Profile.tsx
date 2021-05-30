@@ -5,6 +5,7 @@ import {profilePageType} from "../../Redux/profile-reducer";
 
 
 function Profile(props: profilePageType) {
+
     return (<div>
         <ProfileInfo profile={props.profile} />
         <MyPostsContainer

@@ -1,4 +1,6 @@
 import React from 'react'
+import {Dispatch} from "redux";
+import {getProfile} from "../api/api";
 
 export type ActionType = AddPostActionType | UpdateNewTextActionType | SetUserProfileType
 
@@ -66,7 +68,11 @@ export const setUserProfile = (profile: ProfileType): SetUserProfileType => {
         profile,
     }
 }
-
+export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
+    getProfile(userId).then(response => {
+        dispatch(setUserProfile(response.data));
+    })
+}
 let initialProfileState: profilePageType = {
     changePostText: "",
     postData: [
