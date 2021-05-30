@@ -13,7 +13,6 @@ type UsersComponentPropsType = {
     users: Array<UserType>,
     follow: (userID: number) => void,
     unfollow: (userID: number) => void,
-    followingProgress: (isFetching: boolean, userId: number) => void
     followingIsProgress: Array<number>
 }
 
@@ -47,22 +46,10 @@ let Users = (props: UsersComponentPropsType) => {
 <div>
     {u.followed
         ? <button disabled={props.followingIsProgress.some(id => id === u.id)} onClick={() => {
-            props.followingProgress(true, u.id)
-            unfollowUsers(u.id).then(data => {
-                if (data.resultCode === 0) {
-                    props.unfollow(u.id)
-                }
-                props.followingProgress(false, u.id)
-            });
+            props.unfollow(u.id)
         }}> Unfollow </button>
         : <button disabled={props.followingIsProgress.some(id => id === u.id)} onClick={() => {
-            props.followingProgress(true, u.id)
-            followUsers(u.id).then(data => {
-                if (data.resultCode === 0) {
-                    props.follow(u.id)
-                }
-                props.followingProgress(false, u.id)
-            });
+            props.follow(u.id)
         }}> Follow</button>}
 
 </div>

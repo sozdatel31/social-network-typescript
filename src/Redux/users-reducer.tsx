@@ -1,4 +1,45 @@
 import React from 'react'
+import {followUsers, getUsers, unfollowUsers} from "../api/api";
+import {Dispatch} from "redux";
+
+type FollowActionType = {
+    type: "FOLLOW",
+    userId: number
+}
+type UnfollowActionType = {
+    type: "UNFOLLOW",
+    userId: number
+}
+type SetUsersActionType = {
+    type: "SET-USERS",
+    users: Array<UserType>
+}
+type SetCurrentPageType = {
+    type: "SET-CURRENT-PAGE",
+    currentPage: number,
+}
+type SetTotalUsersCountType = {
+    type: "SET-TOTAL-USERS-COUNT",
+    count: number,
+}
+type ToggleIsFetchingType = {
+    type: "TOGGLE-IS-FETCHING",
+    isFetching: boolean,
+}
+type FollowingProgressType = {
+    type: "TOGGLE-IS-FOLLOWING-PROGRESS",
+    isFetching: boolean,
+    userId: number
+}
+
+export type UsersActionType =
+    | FollowActionType
+    | UnfollowActionType
+    | SetUsersActionType
+    | SetCurrentPageType
+    | SetTotalUsersCountType
+    | ToggleIsFetchingType
+    | FollowingProgressType
 
 type UsersLocation = {
     city: string,
@@ -40,7 +81,7 @@ const usersReducer = (state: InitialStateUsersType = initialUsersState, action: 
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if (u.id === action.userID) {
+                    if (u.id === action.userId) {
                         return {...u, followed: true}
                     }
                     return u
@@ -50,14 +91,14 @@ const usersReducer = (state: InitialStateUsersType = initialUsersState, action: 
             return {
                 ...state,
                 users: state.users.map(u => {
-                    if (u.id === action.userID) {
+                    if (u.id === action.userId) {
                         return {...u, followed: false}
                     }
                     return u
                 })
             };
         case "SET-USERS": {
-            return {...state, users:  action.users}
+            return {...state, users: action.users}
         }
         case "SET-CURRENT-PAGE": {
             return {...state, currentPage: action.currentPage}
@@ -69,10 +110,11 @@ const usersReducer = (state: InitialStateUsersType = initialUsersState, action: 
             return {...state, isFetching: action.isFetching}
         }
         case "TOGGLE-IS-FOLLOWING-PROGRESS": {
-            return {...state,
+            return {
+                ...state,
                 followingIsProgress: action.isFetching
-                    ? [...state.followingIsProgress, action.userId]:
-                    state.followingIsProgress.filter(id=> id != action.userId)
+                    ? [...state.followingIsProgress, action.userId] :
+                    state.followingIsProgress.filter(id => id != action.userId)
             }
         }
         default:
@@ -80,45 +122,52 @@ const usersReducer = (state: InitialStateUsersType = initialUsersState, action: 
     }
 }
 
-export const followAC = (userID: number) => ({type: "FOLLOW", userID} as const)
-export const unfollowAC = (userID: number) => ({type: "UNFOLLOW", userID} as const)
+export const followAC = (userId: number) => ({type: "FOLLOW", userId} as const)
+export const unfollowAC = (userId: number) => ({type: "UNFOLLOW", userId} as const)
 export const setUsersAC = (users: Array<UserType>) => ({type: "SET-USERS", users} as const)
 export const setCurrentPageAC = (currentPage: number) => ({type: "SET-CURRENT-PAGE", currentPage} as const)
-export const setUsersTotalCountAC = (totalUsersCount: number) => ({type: "SET-TOTAL-USERS-COUNT", count: totalUsersCount} as const)
-export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: "TOGGLE-IS-FETCHING", isFetching} as const)
-export const setToggleIsFollowingProgressAC = (isFetching: boolean, userId: number) => ({type: "TOGGLE-IS-FOLLOWING-PROGRESS", isFetching, userId} as const)
-
-
-type FollowActionType = {
-    type: "FOLLOW",
-    userID: number
-}
-type UnfollowActionType = {
-    type: "UNFOLLOW",
-    userID: number
-}
-type SetUsersActionType = {
-    type: "SET-USERS",
-    users: Array<UserType>
-}
-type SetCurrentPageType = {
-    type: "SET-CURRENT-PAGE",
-   currentPage: number,
-}
-type SetTotalUsersCountType = {
+export const setUsersTotalCountAC = (totalUsersCount: number) => ({
     type: "SET-TOTAL-USERS-COUNT",
-   count: number,
-}
-type ToggleIsFetchingType = {
-    type: "TOGGLE-IS-FETCHING",
-   isFetching: boolean,
-}
-type FollowingProgressType = {
+    count: totalUsersCount
+} as const)
+export const setToggleIsFetchingAC = (isFetching: boolean) => ({type: "TOGGLE-IS-FETCHING", isFetching} as const)
+export const setToggleIsFollowingProgressAC = (isFetching: boolean, userId: number) => ({
     type: "TOGGLE-IS-FOLLOWING-PROGRESS",
-    isFetching: boolean,
-    userId: number
-}
-export type UsersActionType = FollowActionType | UnfollowActionType
-    | SetUsersActionType | SetCurrentPageType | SetTotalUsersCountType | ToggleIsFetchingType | FollowingProgressType
+    isFetching,
+    userId
+} as const)
 
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setToggleIsFetchingAC(true))
+        getUsers(currentPage, pageSize).then(data => {
+            dispatch(setToggleIsFetchingAC(false))
+            dispatch(setUsersAC(data.items));
+            dispatch(setUsersTotalCountAC(data.totalCount));
+        })
+    }
+}
+
+export const unfollowThunkCreator = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setToggleIsFollowingProgressAC(true, userId))
+        unfollowUsers(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollowAC(userId))
+            }
+            dispatch(setToggleIsFollowingProgressAC(false, userId))
+        });
+    }
+}
+export const followThunkCreator = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(setToggleIsFollowingProgressAC(true, userId))
+        followUsers(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(followAC(userId))
+            }
+            dispatch(setToggleIsFollowingProgressAC(false, userId))
+        });
+    }
+}
 export default usersReducer;
