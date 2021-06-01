@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Header from "./Components/Header/Header";
 import Navbar from "./Components/Nav/Nav";
 import {BrowserRouter, Route} from 'react-router-dom';
 import News from "./Components/News/News";
@@ -12,13 +11,8 @@ import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import {Login} from "./Components/Login/Login";
 
-// type PropsType = {
-//     store: typeof store
-// }
-//
-
 function App() {
-    //const state = props.store.getState();
+
     return (
         <BrowserRouter>
             <div className="app-wrapper">

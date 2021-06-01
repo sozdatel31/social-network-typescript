@@ -64,10 +64,5 @@ type setUserActionType = {
     isAuth: boolean
 }
 
-type ToggleIsFetchingType = {
-    type: "TOGGLE-IS-FETCHING",
-    isFetching: boolean,
-}
-
 
 export default authReducer;

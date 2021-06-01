@@ -10,10 +10,12 @@ import {
     UserType
 } from "../../Redux/users-reducer";
 import {AppStateType} from "../../Redux/redux-store";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import Preloader from "../common/preloader/Preloader";
 import {getUsers} from "../../api/api";
 import Users from "./Users";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {withRouter} from "react-router-dom";
 
 type MapStatePropsType = {
     users: Array<UserType>
@@ -103,4 +105,8 @@ const mapDispatchToProps = (dispatch: any): MapDispatchPropsType => {
         },
     }
 }
-export default connect<MapStatePropsType, MapDispatchPropsType, any, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export default compose<React.ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, any, AppStateType>(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    withAuthRedirect,
+)(UsersContainer)

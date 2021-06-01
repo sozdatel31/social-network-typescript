@@ -1,4 +1,4 @@
-import {$CombinedState, applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import profileReducer from "./profile-reducer";
 import sitebarReducer from "./sitebar-reducer";
 import dialogsReducer from "./dialogs-reducer";
