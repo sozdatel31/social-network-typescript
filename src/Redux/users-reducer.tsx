@@ -1,6 +1,6 @@
 import React from 'react'
-import {followUsers, getUsers, unfollowUsers} from "../api/api";
 import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 type FollowActionType = {
     type: "FOLLOW",
@@ -140,7 +140,7 @@ export const setToggleIsFollowingProgressAC = (isFetching: boolean, userId: numb
 export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch) => {
         dispatch(setToggleIsFetchingAC(true))
-        getUsers(currentPage, pageSize).then(data => {
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
             dispatch(setToggleIsFetchingAC(false))
             dispatch(setUsersAC(data.items));
             dispatch(setUsersTotalCountAC(data.totalCount));
@@ -151,7 +151,7 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
 export const unfollowThunkCreator = (userId: number) => {
     return (dispatch: Dispatch) => {
         dispatch(setToggleIsFollowingProgressAC(true, userId))
-        unfollowUsers(userId).then(data => {
+        usersAPI.unfollowUsers(userId).then(data => {
             if (data.resultCode === 0) {
                 dispatch(unfollowAC(userId))
             }
@@ -162,7 +162,7 @@ export const unfollowThunkCreator = (userId: number) => {
 export const followThunkCreator = (userId: number) => {
     return (dispatch: Dispatch) => {
         dispatch(setToggleIsFollowingProgressAC(true, userId))
-        followUsers(userId).then(data => {
+        usersAPI.followUsers(userId).then(data => {
             if (data.resultCode === 0) {
                 dispatch(followAC(userId))
             }

@@ -2,7 +2,6 @@ import React from "react"
 import s from "./Users.module.css"
 import {UserType} from "../../Redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {followUsers, unfollowUsers} from "../../api/api";
 
 
 type UsersComponentPropsType = {

@@ -1,8 +1,14 @@
 import React from 'react'
 import {Dispatch} from "redux";
-import {getProfile} from "../api/api";
+import {profileAPI} from "../api/api";
 
-export type ActionType = AddPostActionType | UpdateNewTextActionType | SetUserProfileType
+export type ActionType = AddPostActionType | UpdateNewTextActionType | SetUserProfileType |
+    SetStatusProfileType
+
+type SetStatusProfileType = {
+    type: "SET-STATUS",
+    status: string
+}
 
 type AddPostActionType = {
     type: "ADD-POST",
@@ -43,12 +49,15 @@ export type ProfileType = {
     fullName: string,
     userId: number,
     photos: PhotosType,
+
 }
 
 export type profilePageType = {
     postData: Array<PostType>
     changePostText: string
     profile?: ProfileType
+    status: string
+
 }
 export const addPostAC = (postText: string): AddPostActionType => {
     return {
@@ -68,9 +77,28 @@ export const setUserProfile = (profile: ProfileType): SetUserProfileType => {
         profile,
     }
 }
+export const setStatusProfile = (status: string): SetStatusProfileType => {
+    return {
+        type: "SET-STATUS",
+        status,
+    }
+}
 export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
-    getProfile(userId).then(response => {
+    profileAPI.getProfile(userId).then(response => {
         dispatch(setUserProfile(response.data));
+    })
+}
+
+export const getStatusProfile = (userId: string) => (dispatch: Dispatch) => {
+    profileAPI.getStatus(userId).then(response => {
+        dispatch(setStatusProfile(response.data));
+    })
+}
+export const updateStatusProfile = (status: string) => (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status).then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setStatusProfile(status));
+        }
     })
 }
 let initialProfileState: profilePageType = {
@@ -82,7 +110,8 @@ let initialProfileState: profilePageType = {
         {id: 4, message: "what's up, men", likesCount: 27},
         {id: 5, message: "Hello, Incubatornye", likesCount: 54}
     ],
-    profile: undefined
+    profile: undefined,
+    status: ''
 }
 
 const profileReducer = (state: profilePageType = initialProfileState, action: ActionType): profilePageType => {
@@ -101,6 +130,10 @@ const profileReducer = (state: profilePageType = initialProfileState, action: Ac
             return {
                 ...state,
                 changePostText: action.newText
+            };
+        case "SET-STATUS":
+            return {
+                ...state, status:action.status
             };
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile}

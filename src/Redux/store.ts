@@ -1,5 +1,5 @@
 import dialogsReducer from "./dialogs-reducer";
-import profileReducer from "./profile-reducer";
+import profileReducer, {ProfileType} from "./profile-reducer";
 import sitebarReducer from "./sitebar-reducer";
 
 export type StoreType = {
@@ -36,7 +36,8 @@ const store: StoreType = {
                 {id: 3, message: "How are you", likesCount: 77},
                 {id: 4, message: "what's up, men", likesCount: 27},
                 {id: 5, message: "Hello, Incubatornye", likesCount: 54}
-            ]
+            ],
+            status: ''
         },
         dialogsPage: {
             changeMessageText: "",
@@ -95,6 +96,8 @@ export type PostType = {
 type profilePageType = {
     postData: Array<PostType>
     changePostText: string
+    profile?: ProfileType
+    status: string
 }
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
