@@ -1,5 +1,5 @@
 import React from "react";
-import {addMessageAC, dialogsPageTypes, UpdateMessagePostAC} from "../../Redux/dialogs-reducer";
+import {addMessageAC, dialogsPageTypes} from "../../Redux/dialogs-reducer";
 import {AppStateType} from "../../Redux/redux-store";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
@@ -13,7 +13,6 @@ type MapStateToPropsType = {
     isAuth: boolean
 }
 type MapDispatchPropsType = {
-    updateMessageText: (text: string) => void
     addMessage: (currentMessageText: string) => void
 }
 export type DialogsContainerType = MapStateToPropsType & MapDispatchPropsType
@@ -25,9 +24,6 @@ const mapStateToProps = (state: AppStateType):MapStateToPropsType => {
 }
 const mapDispatchToProps = (dispatch: Dispatch):MapDispatchPropsType => {
     return {
-        updateMessageText: (currentMessageText: string)=> {
-            dispatch(UpdateMessagePostAC(currentMessageText));
-        },
         addMessage: (text: string)=> {
             dispatch(addMessageAC(text))
         }

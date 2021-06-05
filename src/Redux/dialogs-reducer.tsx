@@ -7,16 +7,12 @@ type AddMessageActionType = {
     type: "ADD-MESSAGE"
     messageText: string
 }
-type UpdateNewMessageActionType = {
-    type: "UPDATE-NEW-MESSAGE-TEXT",
-    newMessageText: string
-}
 
-type ActionsType =  AddMessageActionType | UpdateNewMessageActionType
+
+type ActionsType =  AddMessageActionType
 export type dialogsPageTypes = {
     dialogsData: Array<DialogsType>
     messageData: Array<MessageType>
-    changeMessageText: string
 }
 type DialogsType = {
     id: number
@@ -24,7 +20,7 @@ type DialogsType = {
 }
 
 let initialDialogsState: dialogsPageTypes = {
-    changeMessageText: "",
+
     dialogsData: [
         {id: 1, name: "Nadya"},
         {id: 2, name: "Kolya"},
@@ -54,31 +50,18 @@ const dialogsReducer = (state: dialogsPageTypes = initialDialogsState, action: A
             // state.messageData.push(newMessage);
             // state.changeMessageText = "";
             return {...state,
-                changeMessageText: "",
                 messageData: [...state.messageData, {
                     id: new Date().getTime(),
                     message: action.messageText
                 }]
             };
-        case "UPDATE-NEW-MESSAGE-TEXT":
-           // state.changeMessageText = action.newMessageText
-            return {...state,
-                changeMessageText: action.newMessageText
-            };
-        default:
-            return state;
+        default: return state
     }
 }
 export const addMessageAC = (messageText: string): AddMessageActionType => {
     return {
         type: "ADD-MESSAGE",
         messageText: messageText
-    }
-}
-export const UpdateMessagePostAC = (newMessage: string): UpdateNewMessageActionType => {
-    return {
-        type: "UPDATE-NEW-MESSAGE-TEXT",
-        newMessageText: newMessage
     }
 }
 

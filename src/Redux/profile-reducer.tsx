@@ -54,7 +54,6 @@ export type ProfileType = {
 
 export type profilePageType = {
     postData: Array<PostType>
-    changePostText: string
     profile?: ProfileType
     status: string
 
@@ -102,7 +101,6 @@ export const updateStatusProfile = (status: string) => (dispatch: Dispatch) => {
     })
 }
 let initialProfileState: profilePageType = {
-    changePostText: "",
     postData: [
         {id: 1, message: "Hello world", likesCount: 99},
         {id: 2, message: "Hey, Arnold", likesCount: 27},
@@ -119,17 +117,11 @@ const profileReducer = (state: profilePageType = initialProfileState, action: Ac
         case "ADD-POST":
             return {
                 ...state,
-                changePostText: "",
                 postData: [{
                     id: new Date().getTime(),
                     message: action.postText,
                     likesCount: 0
                 }, ...state.postData]
-            };
-        case "UPDATE-NEW-POST-TEXT":
-            return {
-                ...state,
-                changePostText: action.newText
             };
         case "SET-STATUS":
             return {

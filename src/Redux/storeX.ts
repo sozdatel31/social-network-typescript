@@ -40,7 +40,7 @@ const store: StoreType = {
             status: ''
         },
         dialogsPage: {
-            changeMessageText: "",
+
             dialogsData: [
                 {id: 1, name: "Nadya"},
                 {id: 2, name: "Kolya"},
@@ -73,7 +73,6 @@ const store: StoreType = {
 
     dispatch(action:any) {
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.sidebar = sitebarReducer(this._state.dialogsPage, action)
         this.rerenderEntireTree()
     }
@@ -102,7 +101,6 @@ type profilePageType = {
 export type dialogsPageType = {
     dialogsData: Array<DialogsType>
     messageData: Array<MessageType>
-    changeMessageText: string
 }
 type sidebarType = {}
 export type RootStateType = {
@@ -110,5 +108,3 @@ export type RootStateType = {
     dialogsPage: dialogsPageType
     sidebar: sidebarType
 }
-
-export default store;

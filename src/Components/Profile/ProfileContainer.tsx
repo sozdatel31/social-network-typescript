@@ -23,7 +23,6 @@ type PropsType = RouteComponentProps<PathParamsType>
 type MapStatePropsType = {
     profile?: ProfileType,
     postData: Array<PostType>,
-    changePostText: string,
     isAuth: boolean,
     status: string
 }
@@ -59,7 +58,6 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, profil
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
     postData: state.profilePage.postData,
-    changePostText: state.profilePage.changePostText,
     isAuth: state.auth.isAuth,
     status: state.profilePage.status
 })

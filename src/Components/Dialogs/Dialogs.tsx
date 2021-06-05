@@ -1,9 +1,14 @@
 import React from "react";
 import s from "./Dialogs.module.css"
-import DialogsItem  from "./DialogsItem/DialogsItem";
+import DialogsItem from "./DialogsItem/DialogsItem";
 import Messages from "./Messages/Messages";
 import {DialogsContainerType} from "./DialogsContainer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
+
+type FormDataType = {
+    newMessageBody: string,
+}
 
 function Dialogs(props: DialogsContainerType) {
     const dialogElement = props.dialogsPage.dialogsData.map((d) => {
@@ -13,8 +18,8 @@ function Dialogs(props: DialogsContainerType) {
     const messageElement = props.dialogsPage.messageData.map((m) => {
         return <Messages id={m.id} message={m.message}/>
     })
-const newMessageElement = () => {
-        props.addMessage(props.dialogsPage.changeMessageText)
+    const newMessageElement = (formData: FormDataType) => {
+        props.addMessage(formData.newMessageBody)
     }
     return (
         <div className={s.dialogs}>
@@ -23,13 +28,27 @@ const newMessageElement = () => {
             </div>
             <div className={s.message}>
                 {messageElement}
-                <textarea
-                    placeholder={"Go writing message!!!"}
-                    onChange={(e)=>{props.updateMessageText((e.currentTarget.value))}}
-                value={props.dialogsPage.changeMessageText}></textarea>
-                <div><button onClick={newMessageElement}>add message</button></div>
+                <AddMessageFormRedux onSubmit={newMessageElement}/>
             </div>
         </div>
     )
 }
+
+const AddMessageForm = (props: InjectedFormProps<FormDataType>) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={'textarea'} name={'newMessageBody'} placeholder={'Enter your message'}/>
+            </div>
+            <div>
+                <button>add message</button>
+            </div>
+        </form>
+    )
+}
+
+const AddMessageFormRedux = reduxForm<FormDataType>({form: 'dialogAddMessageForm'})(AddMessageForm)
+
 export default Dialogs;
+
+

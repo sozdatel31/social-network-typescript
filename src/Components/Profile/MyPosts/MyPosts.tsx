@@ -3,36 +3,22 @@ import s from "./MyPosts.module.css"
 import Post from "./Post/Post";
 
 import {MyPostContainerType} from "./MyPostsContainer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
-// type myPostsPropsType = {
-//     postData: Array<PostType>
-//     addPost: (message: string) => void
-//     changePostText: string
-//     updateNewPostText: (newText: string) => void
-//     // dispatch: (action: ActionType) => void
-// }
+type FormDataType = {
+    newPostBody: string,
+}
 
 function MyPosts(props: MyPostContainerType) {
     const postElement = props.profilePage.postData.map((p) => {
         return <Post id={p.id} likesCount={p.likesCount} message={p.message}/>
     })
 
-    const onAddPost = () => {props.addPost(props.profilePage.changePostText) }
-        //props.dispatch(addPostAC(props.changePostText))
+    const onAddPost = (formData: FormDataType) => {props.addPost(formData.newPostBody) }
 
     return (
         <div>
-            <div>
-                <textarea
-                    onChange={(e) => {
-                        props.updateNewPostText((e.currentTarget.value))
-                    }}
-                    //onChange={(e)=>{props.updateNewPostText(e.currentTarget.value)}
-                    value={props.profilePage.changePostText}/>
-            </div>
-            <div>
-                <button onClick={onAddPost}>add post</button>
-            </div>
+            <AddPostFormRedux onSubmit={onAddPost}/>
             <h3>My posts</h3>
             <div>New post</div>
             <div className={s.item}>
@@ -41,5 +27,20 @@ function MyPosts(props: MyPostContainerType) {
         </div>
     )
 }
+
+const AddPostForm = (props: InjectedFormProps<FormDataType>) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={'textarea'} name={'newPostBody'} placeholder={'Enter post message'}/>
+            </div>
+            <div>
+                <button>add Post</button>
+            </div>
+        </form>
+    )
+}
+
+const AddPostFormRedux = reduxForm<FormDataType>({form: 'dialogAddPostForm'})(AddPostForm)
 
 export default MyPosts;

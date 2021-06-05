@@ -1,15 +1,14 @@
 import React from "react";
 
-import {addPostAC, UpdateTextPostAC} from "../../../Redux/profile-reducer";
+import {addPostAC, PostType, UpdateTextPostAC} from "../../../Redux/profile-reducer";
 import {AppStateType} from "../../../Redux/redux-store";
 import MyPosts from "./MyPosts";
 import {Dispatch} from "redux";
 import {connect} from "react-redux";
-import {PostType} from "../../../Redux/store";
+
 
 export type profilePageType = {
     postData: Array<PostType>
-    changePostText: string
 }
 
 

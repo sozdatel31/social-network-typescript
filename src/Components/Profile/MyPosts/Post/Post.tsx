@@ -1,7 +1,11 @@
 import React from "react";
 import s from "./Post.module.css"
-import {PostType} from "../../../../Redux/store"
 
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
 
 function Post(props: PostType) {
     return (
