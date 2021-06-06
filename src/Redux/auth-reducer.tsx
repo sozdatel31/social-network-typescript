@@ -50,6 +50,14 @@ export const getAuthUserData = ()=> (dispatch: Dispatch) => {
 
     })
 }
+export const LoginThunkCreator = (email: string, password: string, rememberMe: boolean,)=> (dispatch: Dispatch) => {
+    authAPI.login(email,password,rememberMe).then(response => {
+        if (response.data.resultCode === 0) {
+           getAuthUserData()
+        }
+
+    })
+}
 
 type setUserActionType = {
     type: "SET_USER_DATA",
