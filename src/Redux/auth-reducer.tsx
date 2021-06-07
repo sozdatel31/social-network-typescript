@@ -36,24 +36,35 @@ const authReducer = (state: InitialStateDataUsersType = initialState, action: se
     }
 }
 
-export const setAuthUserData = (userId: number, email: string, login: string) => ({
+export const setAuthUserData = (userId: number|null, email: string|null, login: string|null, isAuth: boolean) => ({
     type: "SET_USER_DATA",
-    data: {data: {userId, email, login}}
+    data: {data: {userId, email, login, isAuth}}
 } as const)
 
 export const getAuthUserData = ()=> (dispatch: Dispatch) => {
     authAPI.me().then(response => {
         if (response.data.resultCode === 0) {
-            let {email, id, login} = response.data.data
-            dispatch(setAuthUserData( id, email, login))
+            let {email, id, login, isAuth} = response.data.data
+            dispatch(setAuthUserData( id, email, login, isAuth))
         }
 
     })
 }
-export const LoginThunkCreator = (email: string, password: string, rememberMe: boolean,)=> (dispatch: Dispatch) => {
+
+export const LoginThunkCreator = (email: string, password: string, rememberMe: boolean,)=> (dispatch: any) => {
     authAPI.login(email,password,rememberMe).then(response => {
         if (response.data.resultCode === 0) {
-           getAuthUserData()
+            dispatch(getAuthUserData())
+        }
+
+    })
+}
+
+export const LogoutThunkCreator = ()=> (dispatch: any) => {
+    authAPI.logout()
+        .then(response => {
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false ))
         }
 
     })
