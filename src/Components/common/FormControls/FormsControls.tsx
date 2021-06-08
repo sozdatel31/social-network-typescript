@@ -1,4 +1,4 @@
-import React, {DetailedHTMLProps} from "react";
+import React from "react";
 import style from './FormsControls.module.css'
 
 type TextAreaType = {

@@ -4,8 +4,10 @@ import {Input} from "../common/FormControls/FormsControls";
 import {requiredField} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {LoginThunkCreator, LogoutThunkCreator} from "../../Redux/auth-reducer";
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {AppStateType} from "../../Redux/redux-store";
+import style from './../common/FormControls/FormsControls.module.css'
+
 
 const Login = (props: any) => {
     const onSubmit = (formData: FormDataType) => {
@@ -28,16 +30,18 @@ type FormDataType = {
     email: string,
     password: string,
     rememberMe: boolean
+    error: string
 }
 
 const LoginForm = (props: InjectedFormProps<FormDataType>) => {
+    debugger
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
                 <Field placeholder={'Email'}
                        name={'email'}
                        component={Input}
-                        validate={[requiredField]}
+                       validate={[requiredField]}
                 />
             </div>
             <div>
@@ -48,6 +52,9 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
             <div>
                 <Field component={Input} name={'rememberMe'} type={"checkbox"}/> Remember me
             </div>
+            {props.error && <div className={style.formSummaryError}>
+                {props.error}
+            </div>}
             <div>
                 <button>Login</button>
             </div>
@@ -59,7 +66,7 @@ const mapStateToProps = (state: AppStateType) => ({
 })
 
 const LoginReduxForm = reduxForm<FormDataType>({
-    form: 'login'
+    form: "login"
 })(LoginForm)
 
 
