@@ -43,13 +43,12 @@ export const setAuthUserData = (userId: number|null, email: string|null, login: 
 } as const)
 
 export const getAuthUserData = ()=> (dispatch: Dispatch) => {
-    authAPI.me().then(response => {
+   return authAPI.me().then(response => {
         if (response.data.resultCode === 0) {
             let {email, id, login, isAuth} = response.data.data
             dispatch(setAuthUserData( id, email, login, isAuth))
         }
-
-    })
+    });
 }
 
 export const LoginThunkCreator = (email: string, password: string, rememberMe: boolean,)=> (dispatch: any) => {
