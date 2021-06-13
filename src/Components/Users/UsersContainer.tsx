@@ -107,5 +107,5 @@ const mapDispatchToProps = (dispatch: any): MapDispatchPropsType => {
 export default compose<React.ComponentType>(
     connect<MapStatePropsType, MapDispatchPropsType, any, AppStateType>(mapStateToProps, mapDispatchToProps),
     withRouter,
-    withAuthRedirect,
+    // withAuthRedirect,
 )(UsersContainer)
