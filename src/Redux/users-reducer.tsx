@@ -138,37 +138,35 @@ export const setToggleIsFollowingProgressAC = (isFetching: boolean, userId: numb
 } as const)
 
 export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
-    return (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch) => {
         dispatch(setToggleIsFetchingAC(true))
         dispatch(setCurrentPageAC(currentPage))
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(setToggleIsFetchingAC(false))
-            dispatch(setUsersAC(data.items));
-            dispatch(setUsersTotalCountAC(data.totalCount));
-        })
+        let data = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(setToggleIsFetchingAC(false))
+        dispatch(setUsersAC(data.items));
+        dispatch(setUsersTotalCountAC(data.totalCount));
     }
 }
 
+const followUnfollowFlow = async (dispatch: Dispatch, userId: number, apiMethod: any, actionCreator: any) => {
+    dispatch(setToggleIsFollowingProgressAC(true, userId))
+    let data = await apiMethod(userId)
+    if (data.resultCode === 0) {
+        dispatch(actionCreator(userId))
+    }
+    dispatch(setToggleIsFollowingProgressAC(false, userId))
+    ;
+}
+
 export const unfollowThunkCreator = (userId: number) => {
-    return (dispatch: Dispatch) => {
-        dispatch(setToggleIsFollowingProgressAC(true, userId))
-        usersAPI.unfollowUsers(userId).then(data => {
-            if (data.resultCode === 0) {
-                dispatch(unfollowAC(userId))
-            }
-            dispatch(setToggleIsFollowingProgressAC(false, userId))
-        });
+    return async (dispatch: Dispatch) => {
+        followUnfollowFlow(dispatch, userId, usersAPI.unfollowUsers.bind(usersAPI), unfollowAC)
     }
 }
+
 export const followThunkCreator = (userId: number) => {
-    return (dispatch: Dispatch) => {
-        dispatch(setToggleIsFollowingProgressAC(true, userId))
-        usersAPI.followUsers(userId).then(data => {
-            if (data.resultCode === 0) {
-                dispatch(followAC(userId))
-            }
-            dispatch(setToggleIsFollowingProgressAC(false, userId))
-        });
+    return async (dispatch: Dispatch) => {
+        followUnfollowFlow(dispatch, userId, usersAPI.followUsers.bind(usersAPI), followAC)
     }
 }
 export default usersReducer;

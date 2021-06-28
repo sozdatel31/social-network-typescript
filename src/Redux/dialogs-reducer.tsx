@@ -43,12 +43,6 @@ let initialDialogsState: dialogsPageTypes = {
 const dialogsReducer = (state: dialogsPageTypes = initialDialogsState, action: ActionsType):dialogsPageTypes => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            // let newMessage: MessageType = {
-            //     id: new Date().getTime(),
-            //     message: action.messageText
-            // }
-            // state.messageData.push(newMessage);
-            // state.changeMessageText = "";
             return {...state,
                 messageData: [...state.messageData, {
                     id: new Date().getTime(),

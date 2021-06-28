@@ -82,23 +82,21 @@ export const setStatusProfile = (status: string): SetStatusProfileType => {
         status,
     }
 }
-export const getUserProfile = (userId: string) => (dispatch: Dispatch) => {
-    profileAPI.getProfile(userId).then(response => {
-        dispatch(setUserProfile(response.data));
-    })
+export const getUserProfile = (userId: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.getProfile(userId)
+    dispatch(setUserProfile(response.data));
 }
 
-export const getStatusProfile = (userId: string) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId).then(response => {
-        dispatch(setStatusProfile(response.data));
-    })
+export const getStatusProfile = (userId: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.getStatus(userId)
+    dispatch(setStatusProfile(response.data));
 }
-export const updateStatusProfile = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(setStatusProfile(status));
-        }
-    })
+
+export const updateStatusProfile = (status: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.updateStatus(status)
+    if (response.data.resultCode === 0) {
+        dispatch(setStatusProfile(status));
+    }
 }
 let initialProfileState: profilePageType = {
     postData: [
@@ -125,7 +123,7 @@ const profileReducer = (state: profilePageType = initialProfileState, action: Ac
             };
         case "SET-STATUS":
             return {
-                ...state, status:action.status
+                ...state, status: action.status
             };
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile}
