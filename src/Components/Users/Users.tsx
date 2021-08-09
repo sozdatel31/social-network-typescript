@@ -2,7 +2,7 @@ import React from "react"
 import {UserType} from "../../Redux/users-reducer";
 import {Paginator} from "./Paginator";
 import User from "./User";
-
+import ReactPaginate from "react-paginate";
 
 type UsersComponentPropsType = {
     totalUsersCount: number,
