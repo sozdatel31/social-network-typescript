@@ -3,7 +3,7 @@ import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
 export type ActionType = AddPostActionType | UpdateNewTextActionType | SetUserProfileType |
-    SetStatusProfileType
+    SetStatusProfileType | SetProfilePhotoType
 
 type SetStatusProfileType = {
     type: "SET-STATUS",
@@ -21,6 +21,10 @@ type UpdateNewTextActionType = {
 type SetUserProfileType = {
     type: "SET-USER-PROFILE",
     profile: ProfileType
+}
+type SetProfilePhotoType = {
+    type: "SET-PROFILE-PHOTO",
+    photo: PhotosType
 }
 export type PostType = {
     id: number
@@ -42,12 +46,12 @@ type PhotosType = {
     large: string,
 }
 export type ProfileType = {
-    aboutMe: string,
-    contacts: ContactsType,
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string,
-    fullName: string,
-    userId: number,
+    aboutMe?: string,
+    contacts?: ContactsType,
+    lookingForAJob?: boolean,
+    lookingForAJobDescription?: string,
+    fullName?: string,
+    userId?: number,
     photos: PhotosType,
 
 }
@@ -82,6 +86,14 @@ export const setStatusProfile = (status: string): SetStatusProfileType => {
         status,
     }
 }
+export const savePhotoSuccess = (photos: PhotosType): SetProfilePhotoType => {
+    return {
+        type: "SET-PROFILE-PHOTO",
+        photo: photos
+    }
+}
+
+
 export const getUserProfile = (userId: string) => async (dispatch: Dispatch) => {
     const response = await profileAPI.getProfile(userId)
     dispatch(setUserProfile(response.data));
@@ -98,6 +110,14 @@ export const updateStatusProfile = (status: string) => async (dispatch: Dispatch
         dispatch(setStatusProfile(status));
     }
 }
+
+export const savePhoto = (arg0: File) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.savePhoto(arg0)
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.photos))
+    }
+}
+
 let initialProfileState: profilePageType = {
     postData: [
         {id: 1, message: "Hello world", likesCount: 99},
@@ -127,6 +147,8 @@ const profileReducer = (state: profilePageType = initialProfileState, action: Ac
             };
         case "SET-USER-PROFILE":
             return {...state, profile: action.profile}
+        case "SET-PROFILE-PHOTO":
+            return {...state, profile: {...state.profile, photos: action.photo}}
         default:
             return {...state};
     }

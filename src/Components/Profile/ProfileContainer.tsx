@@ -6,7 +6,7 @@ import {
     getUserProfile,
     PostType,
     profilePageType,
-    ProfileType,
+    ProfileType, savePhoto,
     updateStatusProfile
 } from "../../Redux/profile-reducer";
 import {AppStateType} from "../../Redux/redux-store";
@@ -17,7 +17,7 @@ import {compose} from "redux";
 type ProfileContainerPropsType = MapStatePropsType & MapDispatchPropsType & PropsType
 
 type PathParamsType = {
-    userId: string ,
+    userId: string,
 }
 type PropsType = RouteComponentProps<PathParamsType>
 type MapStatePropsType = {
@@ -28,13 +28,15 @@ type MapStatePropsType = {
     authorizedUserId?: number
 }
 type MapDispatchPropsType = {
+    savePhoto: (arg0: File) => void
     getUserProfile: (userId: string) => void
     getStatusProfile: (userId: string) => void
-    updateStatusProfile: (status:string) => void
+    updateStatusProfile: (status: string) => void
 }
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType, profilePageType> {
-    componentDidMount(): void {
+
+    refreshProfile() {
         let userId = this.props.match.params.userId
         if (!userId) {
             userId = String(this.props.authorizedUserId);
@@ -46,13 +48,27 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType, profil
         this.props.getStatusProfile(userId);
     }
 
+    componentDidMount(): void {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerPropsType>,
+                       prevState: Readonly<profilePageType>, snapshot?: any): void {
+        if (this.props.match.params.userId != prevProps.match.params.userId) {
+            this.refreshProfile()
+        }
+
+    }
+
     render() {
 
         return (
             <Profile {...this.props}
+                     savePhoto={this.props.savePhoto}
+                     isOwner={!this.props.match.params.userId}
                      profile={this.props.profile}
                      status={this.props.status}
-                     updateStatusProfile = {this.props.updateStatusProfile}
+                     updateStatusProfile={this.props.updateStatusProfile}
 
             />
         )
@@ -68,7 +84,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getStatusProfile, updateStatusProfile}),
+    connect(mapStateToProps, {getUserProfile, getStatusProfile, updateStatusProfile, savePhoto}),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)
