@@ -3,7 +3,7 @@ import s from "./ProfileInfo.module.css"
 import Preloader from "../../common/preloader/Preloader";
 import {ProfileType} from "../../../Redux/profile-reducer";
 import ProfileStatusWithHook from "./ProfileStatusWithHook";
-import ProfileDataForm from "./ProfileDataForm";
+import ProfileDataForm, {FormDataProfileType} from "./ProfileDataForm";
 
 type ProfileInfoType = {
     profile: ProfileType | undefined
@@ -27,6 +27,9 @@ function ProfileInfo(props: ProfileInfoType) {
             props.savePhoto(e.target.files[0])
         }
     }
+    const onSubmit = (DataForm: FormDataProfileType) => {
+        console.log(DataForm)
+    }
     return (
 
         <div>
@@ -37,7 +40,7 @@ function ProfileInfo(props: ProfileInfoType) {
                 <ProfileStatusWithHook status={props.status} updateStatusProfile={props.updateStatusProfile}/>
 
                 {editMode
-                ?<ProfileDataForm />
+                ?<ProfileDataForm onSubmit={onSubmit}/>
                     :<ProfileData toActivateEditMode={()=>setEditMode(true)} profile={props.profile} isOwner={props.isOwner}/>}
 
 
