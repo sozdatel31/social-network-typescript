@@ -53,7 +53,6 @@ export type ProfileType = {
     fullName?: string,
     userId?: number,
     photos: PhotosType,
-
 }
 
 export type profilePageType = {
