@@ -1,6 +1,8 @@
 import React from 'react'
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
+import {AppStateType} from "./redux-store";
+import {stopSubmit} from "redux-form";
 
 export type ActionType = AddPostActionType | UpdateNewTextActionType | SetUserProfileType |
     SetStatusProfileType | SetProfilePhotoType
@@ -32,14 +34,14 @@ export type PostType = {
     likesCount: number
 }
 type ContactsType = {
-    "facebook"?: string,
-    "website"?: string,
-    "vk"?: string,
-    "twitter"?: string,
-    "instagram"?: string,
-    "youtube"?: string,
-    "github"?: string,
-    "mainLink"?: string
+    "Facebook": string,
+    "Website": string,
+    "vk": string,
+    "twitter": string,
+    "instagram": string,
+    "youtube": string,
+    "github": string,
+    "mainLink": string
 }
 type PhotosType = {
     small: string,
@@ -114,6 +116,16 @@ export const savePhoto = (arg0: File) => async (dispatch: Dispatch) => {
     const response = await profileAPI.savePhoto(arg0)
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos))
+    }
+}
+export const saveProfile = (profile: any) => async (dispatch: Dispatch<any>, getState: ()=> AppStateType) => {
+    const userId = getState().auth.data.userId
+    const response = await profileAPI.saveProfile(profile)
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfile(userId? userId.toString():""))
+    } else {
+        dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}))
+        return Promise.reject(response.data.messages[0])
     }
 }
 

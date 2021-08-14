@@ -11,6 +11,7 @@ type ProfileInfoType = {
     updateStatusProfile: (status: string) => void
     isOwner: boolean
     savePhoto: (arg0: File) => void
+    saveProfile: ((dataForm: FormDataProfileType) => void & Promise<string>)
 }
 
 
@@ -28,8 +29,12 @@ function ProfileInfo(props: ProfileInfoType) {
         }
     }
     const onSubmit = (DataForm: FormDataProfileType) => {
-        console.log(DataForm)
+        props.saveProfile(DataForm).then(
+            ()=> {setEditMode(false);}
+        )
+        // setEditMode(false)
     }
+
     return (
 
         <div>
@@ -40,8 +45,15 @@ function ProfileInfo(props: ProfileInfoType) {
                 <ProfileStatusWithHook status={props.status} updateStatusProfile={props.updateStatusProfile}/>
 
                 {editMode
-                ?<ProfileDataForm onSubmit={onSubmit}/>
-                    :<ProfileData toActivateEditMode={()=>setEditMode(true)} profile={props.profile} isOwner={props.isOwner}/>}
+                    ? <ProfileDataForm
+                        onSubmit={onSubmit}
+                        // @ts-ignore
+                        profile={props.profile}
+                        initialValues={props.profile}
+
+                    />
+                    : <ProfileData toActivateEditMode={() => setEditMode(true)} profile={props.profile}
+                                   isOwner={props.isOwner}/>}
 
 
             </div>
@@ -55,9 +67,10 @@ type ContactType = {
 }
 
 const ProfileData = ({profile, isOwner, toActivateEditMode}:
-                         { profile: ProfileType,
+                         {
+                             profile: ProfileType,
                              isOwner: boolean,
-                         toActivateEditMode: ()=> void
+                             toActivateEditMode: () => void
                          }) => {
     return <div>
         {isOwner && <div>
